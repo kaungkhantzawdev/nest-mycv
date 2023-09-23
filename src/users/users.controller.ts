@@ -18,6 +18,8 @@ import { AuthService } from './auth.service';
 import { Serialize } from '../interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthGuard } from '../guards/auth.guard';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { User } from './users.entity';
 @Controller('auth')
 @Serialize(UserDto)
 export class UsersController {
@@ -38,8 +40,8 @@ export class UsersController {
 
   @Get('/whoami')
   @UseGuards(AuthGuard)
-  async whoami(@Session() session: any) {
-    return await this.userService.findOne(session.userId);
+  whoami(@CurrentUser() user: User) {
+    return user;
   }
 
   @Get('/signout')
