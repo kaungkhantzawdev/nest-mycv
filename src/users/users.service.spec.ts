@@ -6,7 +6,7 @@ describe('UsersService', () => {
   let service: UsersService;
 
   beforeEach(async () => {
-    const fakeUserSerivice: Partial<UsersService> = {
+    const fakeUserService: Partial<UsersService> = {
       find: () => Promise.resolve([]),
       create: (email: string, password: string) =>
         Promise.resolve({ id: 1, email, password } as User),
@@ -16,7 +16,7 @@ describe('UsersService', () => {
         UsersService,
         {
           provide: UsersService,
-          useValue: fakeUserSerivice,
+          useValue: fakeUserService,
         },
       ],
     }).compile();
