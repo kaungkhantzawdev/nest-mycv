@@ -1,12 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
+import { User } from './users.entity';
 
 describe('UsersService', () => {
   let service: UsersService;
 
   beforeEach(async () => {
+    const fakeUserSerivice: Partial<UsersService> = {
+      find: () => Promise.resolve([]),
+      create: (email: string, password: string) =>
+        Promise.resolve({ id: 1, email, password } as User),
+    };
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
+      providers: [
+        UsersService,
+        {
+          provide: UsersService,
+          useValue: fakeUserSerivice,
+        },
+      ],
     }).compile();
 
     service = module.get<UsersService>(UsersService);
